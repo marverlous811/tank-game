@@ -1,4 +1,5 @@
 #include "GameScene.h"
+#include "tank.h"
 
 USING_NS_CC;
 
@@ -25,14 +26,10 @@ bool GameScene::init(){
 	auto visibleSize = Director::getInstance()->getVisibleSize();
     auto origin = Director::getInstance()->getVisibleOrigin();
 
-    SpriteFrameCache::getInstance()->addSpriteFramesWithFile("tank/tank.plist", "tank/tank.png");
-	// Khởi tạo Sprite từ SpriteFrameCache.
-	auto mySprite = Sprite::createWithSpriteFrameName("tankicons_03.png");
-	// Thiết lập vị trí ban đầu cho sprite tại vị trí (100, 100).
-	mySprite->setPosition(100, 100);
-	// Thêm mySprite vào Scene.
-	this->addChild(mySprite);
+    Tank *player = Tank::create(100,100,0);
+    this->addChild(player);
     
+    player->move();
 
     return true;
 }
