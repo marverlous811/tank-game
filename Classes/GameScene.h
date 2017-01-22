@@ -8,8 +8,10 @@ class GameScene : public cocos2d::Layer{
     static cocos2d::Scene* createScene();
 
     virtual bool init();     
+    void keyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *event);
     // implement the "static create()" method manually
     CREATE_FUNC(GameScene);
+
 };
 
 #endif

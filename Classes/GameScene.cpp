@@ -26,10 +26,10 @@ bool GameScene::init(){
 	auto visibleSize = Director::getInstance()->getVisibleSize();
     auto origin = Director::getInstance()->getVisibleOrigin();
 
-    Tank *player = Tank::create(100,100,0);
+	Tank* player = new Tank();
+    player = Tank::create(100,100,0);
     this->addChild(player);
     
-    player->move();
-
+    
     return true;
 }
