@@ -27,12 +27,14 @@ bool GameScene::init(){
     auto origin = Director::getInstance()->getVisibleOrigin();
 
 	Tank* player = new Tank();
-    player = Tank::create(100,100,0);
+	player = Tank::create(100,100,0);
+	Sprite* bullet = player->bullet();
     this->addChild(player);
+	this->addChild(bullet);
 
     auto eventListener = EventListenerKeyboard::create();
 
-    eventListener->onKeyPressed = [player](EventKeyboard::KeyCode keyCode, Event* event){
+    eventListener->onKeyPressed = [player,bullet](EventKeyboard::KeyCode keyCode, Event* event){
         switch(keyCode){
             case EventKeyboard::KeyCode::KEY_LEFT_ARROW:
             case EventKeyboard::KeyCode::KEY_A:
@@ -50,6 +52,8 @@ bool GameScene::init(){
             case EventKeyboard::KeyCode::KEY_S:
                 player->moveBack();
                 break;
+			case EventKeyboard::KeyCode::KEY_SPACE:
+				player->fire(bullet);
         }
     };
 

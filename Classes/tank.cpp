@@ -34,11 +34,11 @@ void Tank::moveForward(){
 		this->runAction(moveBy);
 	}
 	else if(this->_tankDirection == LEFT){
-		auto moveBy = MoveBy::create(1, Point(10,0));
+		auto moveBy = MoveBy::create(1, Point(-10,0));
 		this->runAction(moveBy);
 	}
 	else if(this->_tankDirection == RIGHT){
-		auto moveBy = MoveBy::create(1, Point(-10,0));
+		auto moveBy = MoveBy::create(1, Point(10,0));
 		this->runAction(moveBy);
 	}
 }
@@ -53,23 +53,47 @@ void Tank::moveBack(){
 		this->runAction(moveBy);
 	}
 	else if(this->_tankDirection == LEFT){
-		auto moveBy = MoveBy::create(1, Point(-10,0));
+		auto moveBy = MoveBy::create(1, Point(10,0));
 		this->runAction(moveBy);
 	}
 	else if(this->_tankDirection == RIGHT){
-		auto moveBy = MoveBy::create(1, Point(10,0));
+		auto moveBy = MoveBy::create(1, Point(-10,0));
 		this->runAction(moveBy);
 	}
 	
 }
 
 void Tank::rotateRight(){
-	auto rotateBy = RotateBy::create(1.0f, 90.0f);
+	if(_tankDirection == UP){
+		_tankDirection = RIGHT;
+	}
+	else if(_tankDirection == RIGHT){
+		_tankDirection = DOWN;
+	}
+	else if(_tankDirection == DOWN){
+		_tankDirection = LEFT;
+	}
+	else if(_tankDirection == LEFT){
+		_tankDirection = UP;
+	}
+	auto rotateBy = RotateBy::create(0.01f, 90.0f);
 	this->runAction(rotateBy);
 }
 
 void Tank::rotateLeft(){
-	auto rotateBy = RotateBy::create(1.0f, -90.0f);
+	if(_tankDirection == UP){
+		_tankDirection = LEFT;
+	}
+	else if(_tankDirection == RIGHT){
+		_tankDirection = UP;
+	}
+	else if(_tankDirection == DOWN){
+		_tankDirection = RIGHT;
+	}
+	else if(_tankDirection == LEFT){
+		_tankDirection = DOWN;
+	}
+	auto rotateBy = RotateBy::create(0.01f, -90.0f);
 	this->runAction(rotateBy);
 }
 
@@ -82,4 +106,18 @@ Tank *Tank::create(int x, int y, int type){
 	tankSprite->initWithSpriteFrameName(iconOfTank[type]);
 
 	return tankSprite;
+}
+
+Sprite* Tank::bullet(){
+	Sprite* _bullet = Sprite::create("bullet/armor_bullet.png");
+	_bullet->setPosition(this->getPosition());
+	_bullet->setScale(1.0);
+	//_bullet->setOpacity(0);
+	return _bullet;
+}
+
+void Tank::fire(Sprite* bullet){
+	//bullet->setOpacity(1);
+	auto moveBy = MoveBy::create(1, Point(0, 1000));
+	bullet->runAction(moveBy);
 }

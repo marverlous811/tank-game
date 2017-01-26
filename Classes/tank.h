@@ -31,7 +31,8 @@ public:
 	void moveBack();
 	void rotateLeft();
 	void rotateRight();
-	// void fire();
+	Sprite* bullet();
+	void fire(Sprite* bullet);
 	// ~Tank();
 private:
 	float positionX, positionY;
