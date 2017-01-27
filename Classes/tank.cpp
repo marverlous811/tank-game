@@ -118,6 +118,27 @@ Sprite* Tank::bullet(){
 
 void Tank::fire(Sprite* bullet){
 	//bullet->setOpacity(1);
-	auto moveBy = MoveBy::create(1, Point(0, 1000));
-	bullet->runAction(moveBy);
+	if (this->_tankDirection == UP) {
+		auto moveBy = MoveBy::create(1, Point(0, 1000));
+		bullet->runAction(moveBy);
+	}
+	else if (this->_tankDirection == DOWN) {
+		auto rotateBy = RotateBy::create(0.1, 180.0f);
+		auto moveBy = MoveBy::create(1, Point(0, -1000));
+		auto seq = Sequence::create(rotateBy, moveBy, nullptr);
+		bullet->runAction(seq);
+	}
+	else if (this->_tankDirection == RIGHT) {
+		auto rotateBy = RotateBy::create(0.1, 90.0f);
+		auto moveBy = MoveBy::create(1, Point(1000, 0));
+		auto seq = Sequence::create(rotateBy, moveBy, nullptr);
+		bullet->runAction(seq);
+	}
+	else if (this->_tankDirection == LEFT) {
+		auto rotateBy = RotateBy::create(0.1, -90.0f);
+		auto moveBy = MoveBy::create(1, Point(-1000, 0));
+		auto seq = Sequence::create(rotateBy, moveBy, nullptr);
+		bullet->runAction(seq);
+	}
+
 }

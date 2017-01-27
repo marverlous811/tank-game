@@ -26,38 +26,60 @@ bool GameScene::init(){
 	auto visibleSize = Director::getInstance()->getVisibleSize();
     auto origin = Director::getInstance()->getVisibleOrigin();
 
-	Tank* player = new Tank();
 	player = Tank::create(100,100,0);
-	Sprite* bullet = player->bullet();
     this->addChild(player);
-	this->addChild(bullet);
 
     auto eventListener = EventListenerKeyboard::create();
 
-    eventListener->onKeyPressed = [player,bullet](EventKeyboard::KeyCode keyCode, Event* event){
-        switch(keyCode){
-            case EventKeyboard::KeyCode::KEY_LEFT_ARROW:
-            case EventKeyboard::KeyCode::KEY_A:
-                player->rotateLeft();
-                break;
-            case EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
-            case EventKeyboard::KeyCode::KEY_D:
-                player->rotateRight();
-                break;
-            case EventKeyboard::KeyCode::KEY_UP_ARROW:
-            case EventKeyboard::KeyCode::KEY_W:
-                player->moveForward();
-                break;
-            case EventKeyboard::KeyCode::KEY_DOWN_ARROW:
-            case EventKeyboard::KeyCode::KEY_S:
-                player->moveBack();
-                break;
-			case EventKeyboard::KeyCode::KEY_SPACE:
-				player->fire(bullet);
-        }
-    };
+    eventListener->onKeyPressed = CC_CALLBACK_2(GameScene::keyPressed, this);
 
-    this->_eventDispatcher->addEventListenerWithSceneGraphPriority(eventListener,player);
+    this->_eventDispatcher->addEventListenerWithSceneGraphPriority(eventListener,this);
     
     return true;
+}
+
+void GameScene::keyPressed(EventKeyboard::KeyCode keyCode, Event* event){
+    switch(keyCode){
+        case EventKeyboard::KeyCode::KEY_LEFT_ARROW:
+        case EventKeyboard::KeyCode::KEY_A:
+			this->control(1);
+            break;
+        case EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
+        case EventKeyboard::KeyCode::KEY_D:
+            this->control(2);
+            break;
+        case EventKeyboard::KeyCode::KEY_UP_ARROW:
+        case EventKeyboard::KeyCode::KEY_W:
+            this->control(3);
+            break;
+        case EventKeyboard::KeyCode::KEY_DOWN_ARROW:
+        case EventKeyboard::KeyCode::KEY_S:
+            this->control(4);
+            break;
+        case EventKeyboard::KeyCode::KEY_SPACE:
+			this->control(5);
+			break;
+    }
+}
+
+void GameScene::control(int mode) {
+	switch (mode) {
+	case 1:
+		player->rotateLeft();
+		break;
+	case 2:
+		player->rotateRight();
+		break;
+	case 3:
+		player->moveForward();
+		break;
+	case 4:
+		player->moveBack();
+		break;
+	case 5:
+		Sprite* bullet = player->bullet();
+		this->addChild(bullet);
+		player->fire(bullet);
+		break;
+	}
 }
